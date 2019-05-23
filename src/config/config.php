@@ -6,7 +6,7 @@ return [
         'depth' => env('MODULES_SCAN_DEPTH', 2),
     ],
     'cache' => [
-        'enabled' => env('APP_DEBUG', false),
+        'enabled' => !env('APP_DEBUG', true),
         'key' => env('MODULES_CACHE_KEY', 'modules')
     ]
 ];

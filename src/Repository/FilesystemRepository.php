@@ -34,14 +34,14 @@ class FilesystemRepository extends AbstractRepository
         parent::__construct($app);
     }
 
-    public function save(ModuleInterface $module)
+    public function save(ModuleInterface $module) : bool
     {
-        $this->getFilesystem()->put($module->getPath(self::MANIFEST_FILE), json_encode($module->toArray()));
+        return $this->getFilesystem()->put($module->getPath(self::MANIFEST_FILE), json_encode($module->toArray())) !==false;
     }
 
     public function scan()
     {
-        $paths = array_unique(Arr::wrap($this->paths));
+        $paths = array_unique(Arr::wrap($this->_paths));
 
         $paths = array_filter($paths, function ($path) {
             return is_dir($path);

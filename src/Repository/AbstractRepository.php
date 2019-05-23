@@ -37,27 +37,34 @@ abstract class AbstractRepository implements ModuleRepositoryInterface
         return $this->_modules[$route_key];
     }
 
-    public function register()
+    public function register():void
     {
         $this->load();
+
 
         $enabled_keys = [];
 
         $queue = array_keys($this->_modules);
         $next_loop = sizeof($queue);
         while($next_loop) {
+//             dump($next_loop, $queue, $enabled_keys);
             $next_loop = false;
             foreach ($queue as $route_key) {
+                if(in_array($route_key, $enabled_keys)) {
+                    continue;
+                }
                 $module = $this->find($route_key);
                 if(!$module->getStatus()->isEnabled()) {
                     unset($queue[$route_key]);
                     continue;
                 }
-                if(array_diff($this->_enabled_keys, $module->getDependencies())) {
-                    continue;
+                if(sizeof($dependencies = $module->getDependencies())) {
+                    if(array_diff($dependencies, $enabled_keys)) {
+                        continue;
+                    }
                 }
-
                 $enabled_keys[] = $module->getRouteKey();
+                unset($queue[$route_key]);
                 $next_loop = true;
             }
             if(!sizeof($queue)) {
@@ -72,10 +79,12 @@ abstract class AbstractRepository implements ModuleRepositoryInterface
     protected function load()
     {
         if($this->app['config']['modules.cache.enabled']) {
-            $modules = $this->loadCached();
+            $modules = $this->loadCached() ?? [];
         } else {
-            $modules = $this->scan();
+            $modules = $this->scan() ?? [];
         }
+
+        $this->_modules = [];
 
         foreach ($modules as $module) {
             $this->_modules[$module->getRouteKey()] = $module;
@@ -109,6 +118,10 @@ abstract class AbstractRepository implements ModuleRepositoryInterface
     protected function createCachedModule($attributes)
     {
         return new CachedModule($attributes);
+    }
+
+    public function boot():void {
+
     }
 }
 

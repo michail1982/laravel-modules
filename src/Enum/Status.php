@@ -4,8 +4,8 @@ namespace Michail1982\Modules\Enum;
 use Spatie\Enum\Enum;
 
 /**
- * @method enabled()
- * @method disabled()
+ * @method static self enabled()
+ * @method static self disabled()
  * @author Michail1982
  *
  */

@@ -1,7 +1,7 @@
 <?php
 namespace Michail1982\Modules\Providers;
 
-use Carbon\Laravel\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use Michail1982\Modules\Contracts\ModuleRepositoryInterface;
 
 class BootstrapServiceProvider extends ServiceProvider
