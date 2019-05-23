@@ -1,0 +1,35 @@
+{
+	"autoload" : {
+		"psr-4" : {
+			"Michail1982\\Modules\\" : "src"
+		}
+	},
+	"name" : "michail1982/laravel-modules",
+	"type" : "library",
+	"description" : "Modules for Laravel Framework",
+	"license" : "WTFPL",
+	"require" : {
+		"php": ">=7.1",
+		"laravel/framework": "^5.8",
+		"spatie/laravel-enum": "dev-master"
+	},
+	"minimum-stability" : "dev",
+	"authors" : [{
+			"name" : "Michail Maksarov",
+			"email" : "michail1982@gmail.com"
+		}
+	],
+	"config" : {
+		"optimize-autoloader" : true,
+		"preferred-install" : "dist",
+		"sort-packages" : true
+	},
+	"prefer-stable" : true,
+	"extra": {
+    "laravel": {
+        "providers": [
+            "Michail1982\\Modules\\ModulesServiceProvider"
+        ]
+    }
+}
+}
